@@ -1,26 +1,20 @@
-"use client"
+"use client";
 
 import {
-  IconCreditCard,
   IconDotsVertical,
   IconLogout,
-  IconNotification,
   IconUserCircle,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 import {
   SignInButton,
   SignedIn,
   SignedOut,
   useUser,
   useClerk,
-} from "@clerk/nextjs"
+} from "@clerk/nextjs";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,22 +23,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export function NavUser() {
-  const { isMobile } = useSidebar()
-  const { user } = useUser()
-  const { signOut } = useClerk()
+  const { isMobile } = useSidebar();
+  const { user } = useUser();
+  const { signOut, openUserProfile } = useClerk();
 
   const handleSignOut = () => {
-    signOut()
-  }
+    signOut();
+  };
+
+  const handleOpenAccount = () => {
+    openUserProfile();
+  };
 
   return (
     <>
@@ -72,9 +70,14 @@ export function NavUser() {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user?.imageUrl} alt={user?.fullName || ""} />
+                    <AvatarImage
+                      src={user?.imageUrl}
+                      alt={user?.fullName || ""}
+                    />
                     <AvatarFallback className="rounded-lg">
-                      {user?.firstName?.charAt(0) || user?.emailAddresses?.[0]?.emailAddress?.charAt(0) || "U"}
+                      {user?.firstName?.charAt(0) ||
+                        user?.emailAddresses?.[0]?.emailAddress?.charAt(0) ||
+                        "U"}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
@@ -97,9 +100,14 @@ export function NavUser() {
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={user?.imageUrl} alt={user?.fullName || ""} />
+                      <AvatarImage
+                        src={user?.imageUrl}
+                        alt={user?.fullName || ""}
+                      />
                       <AvatarFallback className="rounded-lg">
-                        {user?.firstName?.charAt(0) || user?.emailAddresses?.[0]?.emailAddress?.charAt(0) || "U"}
+                        {user?.firstName?.charAt(0) ||
+                          user?.emailAddresses?.[0]?.emailAddress?.charAt(0) ||
+                          "U"}
                       </AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
@@ -114,17 +122,9 @@ export function NavUser() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleOpenAccount}>
                     <IconUserCircle />
                     Account
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <IconCreditCard />
-                    Billing
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <IconNotification />
-                    Notifications
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -138,5 +138,5 @@ export function NavUser() {
         </SidebarMenu>
       </SignedIn>
     </>
-  )
+  );
 }
