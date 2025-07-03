@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Double A Painting",
+  title: "Portal | Double A Painting",
   description: "Company Dashboard",
 };
 
